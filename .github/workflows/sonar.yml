@@ -20,11 +20,14 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
+
 #install node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+
+
 
 #install npm
       - name: Install dependencies
@@ -34,6 +37,20 @@ jobs:
 #added trivy file scan to show logs in .txt file
       - name: Trivy file scan
         run: trivy fs . >trivyfs.txt
+
+
+
+#added Docker to Build and Push
+      - name: Docker Build and push
+        run: |
+          docker build -t candycrush .
+          docker tag candycrush heyash11/tic-tac-toe:latest
+          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+          docker push heyash11/tic-tac-toe:latest
+        env:
+          DOCKER_CLI_ACI: 1
+
+
 
 
 
