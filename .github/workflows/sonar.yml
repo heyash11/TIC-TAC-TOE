@@ -34,7 +34,7 @@ jobs:
         run: npm install
 
 
-#added trivy file scan to show logs in .txt file
+#added trivy file scan and generate reports in trivyfs.txt file
       - name: Trivy file scan
         run: trivy fs . >trivyfs.txt
 
@@ -49,6 +49,13 @@ jobs:
           docker push heyash11/tic-tac-toe:latest
         env:
           DOCKER_CLI_ACI: 1
+
+#added trivy image scan and generate reports in trivyimage.txt
+      - name: Trivy Image scan
+        run: trivy image heyash11/tic-tac-toe:latest > trivyimage.txt
+
+
+
 
 
 
